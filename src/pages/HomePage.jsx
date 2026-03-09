@@ -17,8 +17,9 @@ import { useFocusMode } from '../hooks/useFocusMode';
 
 export default function HomePage() {
     const {
-        taskTitle, steps, status, errorMsg,
+        taskTitle, steps, status, errorMsg, analyzingStepId,
         submitTask, resetTask,
+        reorderSteps, updateStepText, handleTooHard,
     } = useTaskBreakdown();
 
     const {
@@ -114,6 +115,10 @@ export default function HomePage() {
                         onToggle={handleToggle}
                         onStartFocus={() => startFocus(steps)}
                         onReset={handleReset}
+                        onReorder={reorderSteps}
+                        onUpdateText={updateStepText}
+                        onTooHard={handleTooHard}
+                        analyzingStepId={analyzingStepId}
                     />
                 </motion.div>
             )}
