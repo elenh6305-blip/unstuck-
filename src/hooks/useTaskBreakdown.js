@@ -7,7 +7,7 @@
 // ============================================================
 
 import { useState, useCallback, useRef } from 'react';
-import { breakdownTask, analyzeTaskDifficulty } from '../services/geminiService';
+import { breakdownTask, analyzeTaskDifficulty } from '../services/aiService';
 import { getApiKey, saveTask, updateTaskSteps } from '../services/storageService';
 import { GROUNDING_STEPS } from '../prompts';
 
