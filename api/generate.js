@@ -42,8 +42,14 @@ export default async function handler(req, res) {
   }
 
   try {
+    // 智能处理 baseUrl，防止拼接出 /v1/v1/chat/completions
+    const normalizedBaseUrl = baseUrl.replace(/\/+$/, ''); // 取消末尾的多余斜杠
+    const endpoint = normalizedBaseUrl.endsWith('/v1')
+      ? `${normalizedBaseUrl}/chat/completions`
+      : `${normalizedBaseUrl}/v1/chat/completions`;
+
     // ── 调用 DeepSeek / OpenAI 兼容接口 ───────────
-    const apiResponse = await fetch(`${baseUrl}/v1/chat/completions`, {
+    const apiResponse = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
