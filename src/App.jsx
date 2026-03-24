@@ -33,6 +33,17 @@ function AppShell() {
   );
 }
 
+// 在入口处捕获 ?theme 并动态加载独立的 css（隔离 Vibe 版本）
+const params = new URLSearchParams(window.location.search);
+const theme = params.get('theme');
+
+if (theme === 'vibe') {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '/vibe-override.css';
+  document.head.appendChild(link);
+}
+
 export default function App() {
   return (
     <BrowserRouter>

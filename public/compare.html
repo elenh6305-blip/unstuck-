@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unstuck - UI 版本对比 (真实 React App)</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #e2e8f0;
+        }
+        .header {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+        .header-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #334155;
+            flex: 1;
+            text-align: center;
+        }
+        .split-view {
+            display: flex;
+            height: calc(100vh - 48px);
+            width: 100vw;
+        }
+        .iframe-container {
+            flex: 1;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #cbd5e1;
+        }
+        .iframe-container:last-child {
+            border-right: none;
+        }
+        iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">版本 A（您批评的："只改了色调和间距的克制极简版"）</div>
+        <div class="header-title">版本 B（刚刚的："彻底改变布局的流体毛玻璃多巴胺版"）</div>
+    </div>
+    <div class="split-view">
+        <div class="iframe-container">
+            <iframe src="/"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="/?theme=vibe"></iframe>
+        </div>
+    </div>
+</body>
+</html>
