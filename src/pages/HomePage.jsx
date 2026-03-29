@@ -1,10 +1,9 @@
 // ============================================================
 // HomePage.jsx — 页面（组装层）
-// 职责：将 useTaskBreakdown + useFocusMode 与 UI 组件连接
+// 职责：将 TaskContext + FocusContext 中的状态与 UI 组件连接
 // 不含任何业务逻辑，只做数据传递
 // ============================================================
 
-import { useState } from 'react';
 /* eslint-disable no-unused-vars */
 import { AnimatePresence } from 'framer-motion';
 import { motion } from 'framer-motion';
@@ -12,37 +11,22 @@ import { motion } from 'framer-motion';
 import SearchInput from '../components/home/SearchInput';
 import TaskBreakdown from '../components/home/TaskBreakdown';
 import FocusOverlay from '../components/focus/FocusOverlay';
-import { useTaskBreakdown } from '../hooks/useTaskBreakdown';
-import { useFocusMode } from '../hooks/useFocusMode';
+import { useTask } from '../contexts/TaskContext';
+import { useFocus } from '../contexts/FocusContext';
 
 export default function HomePage() {
     const {
         taskTitle, steps, status, errorMsg, analyzingStepId,
-        submitTask, resetTask,
+        completedIds,
+        submitTask, resetTask, toggleComplete,
         reorderSteps, updateStepText, handleTooHard,
-    } = useTaskBreakdown();
+    } = useTask();
 
     const {
         isActive, currentIndex, totalSteps, currentStep, direction,
         isLastStep, isFirstStep,
         startFocus, nextStep, prevStep, exitFocus,
-    } = useFocusMode();
-
-    // 记录每步的完成状态（Set of completed step ids）
-    const [completedIds, setCompletedIds] = useState(new Set());
-
-    const handleToggle = (id) => {
-        setCompletedIds((prev) => {
-            const next = new Set(prev);
-            next.has(id) ? next.delete(id) : next.add(id);
-            return next;
-        });
-    };
-
-    const handleReset = () => {
-        resetTask();
-        setCompletedIds(new Set());
-    };
+    } = useFocus();
 
     const isIdle = status === 'idle';
     const isLoading = status === 'loading';
@@ -97,7 +81,7 @@ export default function HomePage() {
                     animate={{ opacity: 1, y: 0 }}
                 >
                     <p>{errorMsg}</p>
-                    <button onClick={handleReset}>重试</button>
+                    <button onClick={resetTask}>重试</button>
                 </motion.div>
             )}
 
@@ -112,9 +96,9 @@ export default function HomePage() {
                         taskTitle={taskTitle}
                         steps={steps}
                         completedIds={completedIds}
-                        onToggle={handleToggle}
+                        onToggle={toggleComplete}
                         onStartFocus={() => startFocus(steps)}
-                        onReset={handleReset}
+                        onReset={resetTask}
                         onReorder={reorderSteps}
                         onUpdateText={updateStepText}
                         onTooHard={handleTooHard}
@@ -139,3 +123,4 @@ export default function HomePage() {
         </div>
     );
 }
+

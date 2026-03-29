@@ -4,18 +4,29 @@
 //   - 点击展开/折叠历史任务的具体步骤
 //   - 收藏（灰色星星 ⇆ 黄色星星）
 //   - 收藏的历史不会被清空且没有删除按钮
+//   - “再次应用”将历史任务加载到主页，编辑后自动分叉新建
 // ============================================================
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useHistory } from '../hooks/useHistory';
+import { useTask } from '../contexts/TaskContext';
 
 export default function HistoryPage() {
     const { history, refresh, removeTask, clearAll, toggleFavorite } = useHistory();
+    const { loadTask } = useTask();
+    const navigate = useNavigate();
 
     // 当前展开的任务ID集合
     const [expandedIds, setExpandedIds] = useState(new Set());
 
     useEffect(() => { refresh(); }, [refresh]);
+
+    // 再次应用历史任务：加载到主页并导航
+    const handleReuse = (task) => {
+        loadTask(task);
+        navigate('/');
+    };
 
     const toggleExpand = (id) => {
         setExpandedIds((prev) => {
@@ -113,6 +124,13 @@ export default function HistoryPage() {
                                             </li>
                                         ))}
                                     </ol>
+                                    <button
+                                        className="history-steps__reuse-btn"
+                                        onClick={() => handleReuse(task)}
+                                    >
+                                        <ReloadIcon />
+                                        再次应用
+                                    </button>
                                 </div>
                             )}
                         </li>
@@ -150,6 +168,15 @@ function ChevronIcon() {
     return (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
+        </svg>
+    );
+}
+
+function ReloadIcon() {
+    return (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
         </svg>
     );
 }
