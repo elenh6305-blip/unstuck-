@@ -5,7 +5,9 @@
 //        isLastStep, isFirstStep
 // ============================================================
 
-import { AnimatePresence } from 'framer-motion';
+/* eslint-disable no-unused-vars */
+import { AnimatePresence, motion } from 'framer-motion';
+/* eslint-enable no-unused-vars */
 
 const slideVariants = {
     enter: (direction) => ({
