@@ -1,6 +1,6 @@
 // ============================================================
-// App.jsx — 路由入口 + 全局布局
-// Context Providers 在此层包裹，确保状态不受路由切换影响
+// App.jsx - routing entry and shared app shell
+// Keep providers here so route changes do not reset app state.
 // ============================================================
 
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
@@ -31,17 +31,6 @@ function AppShell() {
       </TaskProvider>
     </div>
   );
-}
-
-// 在入口处捕获 ?theme 并动态加载独立的 css（隔离 Vibe 版本）
-const params = new URLSearchParams(window.location.search);
-const theme = params.get('theme');
-
-if (theme === 'vibe') {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = '/vibe-override.css';
-  document.head.appendChild(link);
 }
 
 export default function App() {
